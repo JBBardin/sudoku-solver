@@ -17,3 +17,9 @@ python -m solvdoku.visualizer
 ```bash
 pytest -q tests/ -vv
 ```
+
+## Todo liste
+
+* Reset button -> set grid to it's intial state
+* Check grid for error function
+* Modal to write numbers

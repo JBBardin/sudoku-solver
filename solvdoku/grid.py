@@ -12,6 +12,7 @@ class Grid():
 
     def __init__(self, grid: List[List[int]] = [[0]*9]*9):
         self.raw_grid = np.array(grid, dtype=int)
+        self.init_grid = self.raw_grid.copy()
 
     def _get_possible_number(self, x: int, y: int) -> List:
         if self.raw_grid[x, y] != 0:
@@ -40,7 +41,10 @@ class Grid():
         for i in range(9):
             c_x = (i // 3) * 3
             c_y = (i % 3) * 3
-            yield self.raw_grid[c_x:c_x+3, c_y:c_y+3].flatten()
+            yield self.raw_grid[c_x:c_x+3, c_y:c_y+3].flatten(), self.init_grid[c_x:c_x+3, c_y:c_y+3].flatten()
+
+    def reset(self):
+        self.raw_grid = self.init_grid.copy()
 
     @staticmethod
     def _get_square_coord(x: int, y: int) -> [int, int]:
@@ -50,6 +54,14 @@ class Grid():
     @staticmethod
     def _get_square_id(x: int, y: int) -> [int, int]:
         return x//3, y//3
+
+    @staticmethod
+    def _from_square_to_classic_coord(k: int, l: int) -> [int, int]:
+        """
+        k is the number of the square given by the square iterator
+        l is the number inside the square
+        """
+        return l//3 + (k // 3)*3, l % 3 + (k % 3)*3
 
     def __str__(self):
         string = [f"{'':-<19}"]
